@@ -12,10 +12,10 @@ namespace Login.Controller
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private IValidator<UserValidation> _validator;
+        private IValidator<UserDto> _validator;
         private readonly IUserServices _userServices;
 
-        public LoginController(IValidator<UserValidation> validator, IUserServices userServices)
+        public LoginController(IValidator<UserDto> validator, IUserServices userServices)
         {
             _validator = validator;
             _userServices = userServices;
@@ -24,10 +24,11 @@ namespace Login.Controller
         [HttpPost("AddUser")]
         public ActionResult AddUser(UserDto userDto)
         {
-            ValidationResult result =  _validator.Validate(userDto);
+            ValidationResult result =  _validator.ValidateAsync(userDto);
 
             if (!result.IsValid)
             {
+                return StatusCode(300,"Wron Data");
             }
 
             return Ok(_userServices.AddUser(userDto));
