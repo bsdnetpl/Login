@@ -36,14 +36,14 @@ namespace Login.Services
             var EmailResult = await _contextModel.Users.Where(f => f.Email == Email).FirstOrDefaultAsync();
             if (EmailResult is null)
             {
-                return "Bad Address or password";
+                return "Bad address or password";
             }
             var ResPassw = _passwordHasher.VerifyHashedPassword(EmailResult, EmailResult.Password, Password);
             if (ResPassw == PasswordVerificationResult.Failed)
             {
-                return "Bad Address or password";
+                return "Bad address or password";
             }
-            return "You are Login !";
+            return "you are logged in !";
         }
     }
 }

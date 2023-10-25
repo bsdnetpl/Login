@@ -12,7 +12,7 @@ namespace Login.Controller
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private IValidator<UserDto> _validator;
+        private readonly IValidator<UserDto> _validator;
         private readonly IUserServices _userServices;
 
         public LoginController(IValidator<UserDto> validator, IUserServices userServices)
@@ -22,16 +22,21 @@ namespace Login.Controller
         }
 
         [HttpPost("AddUser")]
-        public ActionResult AddUser(UserDto userDto)
+        public async Task<ActionResult> AddUser(UserDto userDto)
         {
-            ValidationResult result =  _validator.ValidateAsync(userDto);
+            ValidationResult result = await  _validator.ValidateAsync(userDto);
 
             if (!result.IsValid)
             {
                 return StatusCode(300,"Wron Data");
             }
 
-            return Ok(_userServices.AddUser(userDto));
+            return Ok(await _userServices.AddUser(userDto));
+        }
+        [HttpPut("Login")]
+        public async Task<ActionResult<string>>Login([FromBody] login login)
+        {
+            return Ok(await _userServices.Login(login.email, login.password));
         }
     }
 }

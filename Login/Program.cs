@@ -1,7 +1,9 @@
 using FluentValidation;
+using Login.AutoMapper;
 using Login.DB;
 using Login.Models;
 using Login.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -16,7 +18,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContextModel>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("CS")));
 builder.Services.AddScoped<IValidator<UserDto>, UserValidation>();
 builder.Services.AddScoped<IUserServices, UserServices>();
-
+builder.Services.AddAutoMapper(typeof(AutomaMapperConfig));
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

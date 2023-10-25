@@ -15,6 +15,4 @@ namespace Login.Models
         public bool Activate { set; get; } = true;
         public string Role { set; get; } = "User";
     }
-
-
 }
