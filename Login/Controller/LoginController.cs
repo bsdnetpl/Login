@@ -33,7 +33,7 @@ namespace Login.Controller
 
             return Ok(await _userServices.AddUser(userDto));
         }
-        [HttpPut("Login")]
+        [HttpPost("Login")]
         public async Task<ActionResult<string>>Login([FromBody] login login)
         {
             return Ok(await _userServices.Login(login.email, login.password));
