@@ -33,6 +33,7 @@ namespace Login.Services
             result.Id = Guid.NewGuid();
             result.DateCreate = DateTime.Now;
             result.Password = _passwordHasher.HashPassword(result, userDto.Password);
+           // result.Role = "Admin";
             await _contextModel.Users.AddAsync(result);
             await _contextModel.SaveChangesAsync();
             return true;

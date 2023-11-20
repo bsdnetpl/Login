@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using Login.Models;
 using Login.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,13 +23,14 @@ namespace Login.Controller
         }
 
         [HttpPost("AddUser")]
+       [Authorize (Roles="Admin")]
         public async Task<ActionResult> AddUser(UserDto userDto)
         {
             ValidationResult result = await  _validator.ValidateAsync(userDto);
 
             if (!result.IsValid)
             {
-                return StatusCode(300,"Wron Data");
+                return StatusCode(300,"Wrong Data");
             }
 
             return Ok(await _userServices.AddUser(userDto));
